@@ -58,27 +58,33 @@
     <script>
       function analyzeSentiment() {
         const review = document.getElementById("review").value;
-        fetch("/predict", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ review }),
-        })
-          .then((response) => {
-            if (!response.ok) {
-              throw new Error("Network response was not ok");
-            }
-            return response.json();
+        if (review != "") {
+          fetch("/predict", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ review }),
           })
-          .then((data) => {
-            document.getElementById(
-              "result"
-            ).innerText = `Sentiment: ${data.sentiment}`;
-          })
-          .catch((error) => {
-            console.error("Error:", error);
-          });
+            .then((response) => {
+              if (!response.ok) {
+                throw new Error("Network response was not ok");
+              }
+              return response.json();
+            })
+            .then((data) => {
+              document.getElementById(
+                "result"
+              ).innerText = `Sentiment: ${data.sentiment}`;
+            })
+            .catch((error) => {
+              console.error("Error:", error);
+            });
+        } else {
+          document.getElementById(
+            "result"
+          ).innerText = `you have not enter any reviews`;
+        }
       }
     </script>
   </body>
